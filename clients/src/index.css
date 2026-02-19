@@ -1,0 +1,77 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ✅ Body background - purple pink */
+html, body, #root {
+  background: linear-gradient(135deg, #f3e8ff 0%, #fdf4ff 100%) !important;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+}
+
+/* ✅ Toast notifications - Purple Pink theme */
+.Toastify__toast--success {
+  background: linear-gradient(135deg, #7c3aed, #a855f7) !important;
+  color: white !important;
+  border-radius: 12px !important;
+  box-shadow: 0 4px 20px rgba(124, 58, 237, 0.4) !important;
+}
+
+.Toastify__toast--error {
+  background: linear-gradient(135deg, #ec4899, #f43f5e) !important;
+  color: white !important;
+  border-radius: 12px !important;
+  box-shadow: 0 4px 20px rgba(236, 72, 153, 0.4) !important;
+}
+
+.Toastify__toast--info {
+  background: linear-gradient(135deg, #a855f7, #ec4899) !important;
+  color: white !important;
+  border-radius: 12px !important;
+  box-shadow: 0 4px 20px rgba(168, 85, 247, 0.4) !important;
+}
+
+.Toastify__toast--warning {
+  background: linear-gradient(135deg, #f59e0b, #ec4899) !important;
+  color: white !important;
+  border-radius: 12px !important;
+  box-shadow: 0 4px 20px rgba(245, 158, 11, 0.4) !important;
+}
+
+/* ✅ Toast icons - white color */
+.Toastify__toast-icon {
+  color: white !important;
+  fill: white !important;
+}
+
+.Toastify__toast-icon svg {
+  fill: white !important;
+}
+
+/* Progress bar */
+.Toastify__progress-bar--success {
+  background: rgba(255, 255, 255, 0.7) !important;
+}
+
+.Toastify__progress-bar--error {
+  background: rgba(255, 255, 255, 0.7) !important;
+}
+
+.Toastify__progress-bar--info {
+  background: rgba(255, 255, 255, 0.7) !important;
+}
+
+.Toastify__progress-bar--warning {
+  background: rgba(255, 255, 255, 0.7) !important;
+}
+
+/* Close button */
+.Toastify__close-button {
+  color: white !important;
+  opacity: 0.8 !important;
+}
+
+.Toastify__close-button:hover {
+  opacity: 1 !important;
+}

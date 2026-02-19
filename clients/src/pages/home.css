@@ -1,0 +1,67 @@
+.alert-enter {
+  opacity: 0;
+  transform: scale(0.9);
+}
+.alert-enter-active {
+  opacity: 1;
+  transform: translateX(0);
+  transition: opacity 300ms, transform 300ms;
+}
+.alert-exit {
+  opacity: 1;
+}
+.alert-exit-active {
+  opacity: 0;
+  transform: scale(0.9);
+  transition: opacity 300ms, transform 300ms;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+@media screen and (max-width: 1023px) {
+  .chat-page {
+    min-width: 600px;
+  }
+}
+
+/* ✅ Spinner animation for loading screen */
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* ✅ Black highlight remove */
+.chat-input {
+  outline: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  -webkit-appearance: none;
+  appearance: none;
+}
+.chat-input:focus {
+  outline: none !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+.chat-input:-moz-focusring {
+  outline: none !important;
+}
+.chat-input:-webkit-autofill,
+.chat-input:-webkit-autofill:hover,
+.chat-input:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0px 1000px #faf5ff inset !important;
+  -webkit-text-fill-color: #3b0764 !important;
+}
+
+/* ✅ Message bubble hover effect */
+.message-bubble {
+  transition: transform 0.1s ease, box-shadow 0.2s ease;
+}
+.message-bubble:hover {
+  transform: translateY(-1px);
+}
+
+/* ✅ Chat background - soft purple tint */
+.chat-background {
+  background: linear-gradient(180deg, #fdf4ff 0%, #faf5ff 50%, #f5f3ff 100%);
+}

@@ -1,0 +1,48 @@
+<!-- ✅ GlowTalk Favicon - Single "G" with gradient and glow effect -->
+<!-- Save as: public/favicon.svg -->
+
+<svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+  <!-- Gradient definition -->
+  <defs>
+    <linearGradient id="glowGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#7c3aed;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#a855f7;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#ec4899;stop-opacity:1" />
+    </linearGradient>
+    
+    <!-- Outer glow effect -->
+    <filter id="outerGlow">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="15" result="blur"/>
+      <feFlood flood-color="#a855f7" flood-opacity="0.7"/>
+      <feComposite in2="blur" operator="in" result="glow"/>
+      <feMerge>
+        <feMergeNode in="glow"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    
+    <!-- Inner glow -->
+    <filter id="innerGlow">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Background circle with gradient -->
+  <circle cx="256" cy="256" r="240" fill="url(#glowGradient)" filter="url(#outerGlow)"/>
+  
+  <!-- Letter "G" - Bold and centered -->
+  <text 
+    x="256" 
+    y="380" 
+    font-family="Inter, Arial, sans-serif" 
+    font-size="350" 
+    font-weight="900" 
+    fill="white" 
+    text-anchor="middle" 
+    filter="url(#innerGlow)"
+    style="text-shadow: 0 0 20px rgba(255,255,255,0.5);">G</text>
+</svg>

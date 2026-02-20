@@ -15,15 +15,15 @@ const PORT = process.env.PORT || 8000;
 
 // ============= CORS CONFIG =============
 const corsConfig = {
-  origin:[
-    process.env.BASE_URL, // http://localhost:3000'
+  origin: [
+    'http://localhost:3000',
     'https://glowtalk.vercel.app',
+    'https://glowtalk-git-main-salonigarg1328s-projects.vercel.app',
+    'https://glowtalk-pffhrp8jx-salonigarg1328s-projects.vercel.app',
   ],
-  
   credentials: true,
 };
 
-// ============= MIDDLEWARE (ORDER IS IMPORTANT!) =============
 app.use(cors(corsConfig));
 
 // Body parsers

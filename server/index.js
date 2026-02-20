@@ -15,7 +15,11 @@ const PORT = process.env.PORT || 8000;
 
 // ============= CORS CONFIG =============
 const corsConfig = {
-  origin: process.env.BASE_URL, // http://localhost:3000
+  origin:[
+    process.env.BASE_URL, // http://localhost:3000'
+    'https://glowtalk.vercel.app',
+  ],
+  
   credentials: true,
 };
 

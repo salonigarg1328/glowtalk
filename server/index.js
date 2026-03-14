@@ -7,7 +7,7 @@ import cors from 'cors';
 import userRoutes from './routes/user.js';
 import chatRoutes from './routes/chat.js';
 import messageRoutes from './routes/message.js';
-import { Server } from 'socket.io'; // ✅ FIX: Correct import
+import { Server } from 'socket.io';
 
 const app = express();
 
@@ -32,6 +32,20 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// ✅ HEALTH CHECK ROUTE (Add this!)
+app.get('/', (req, res) => {
+  res.json({ 
+    status: 'success',
+    message: 'GlowTalk API is running! 🌟',
+    timestamp: new Date(),
+    endpoints: {
+      users: '/api/user',
+      chats: '/api/chat',
+      messages: '/api/message'
+    }
+  });
+});
+
 // ============= ROUTES =============
 app.use('/', userRoutes);
 app.use('/api/chat', chatRoutes);
@@ -48,10 +62,15 @@ const server = app.listen(PORT, () => {
 });
 
 // ============= SOCKET.IO SETUP =============
-const io = new Server(server, { // ✅ FIX: Use Server directly, not Server.Server
+const io = new Server(server, {
   pingTimeout: 60000,
   cors: {
-    origin: 'http://localhost:3000',
+    origin: [
+      'http://localhost:3000',
+      'https://glowtalk.vercel.app',
+      'https://glowtalk-git-main-salonigarg1328s-projects.vercel.app',
+      'https://glowtalk-pffhrp8jx-salonigarg1328s-projects.vercel.app',
+    ],
     credentials: true,
   },
 });
@@ -76,7 +95,6 @@ io.on('connection', (socket) => {
   socket.on('new message', (newMessageRecieve) => {
     console.log('📨 New message received:', newMessageRecieve);
     
-    // Validate message data
     if (!newMessageRecieve || !newMessageRecieve.chatId) {
       console.error('❌ Invalid message data');
       return;
@@ -84,7 +102,6 @@ io.on('connection', (socket) => {
     
     var chat = newMessageRecieve.chatId;
     
-    // Validate chat users
     if (!chat || !chat.users || !Array.isArray(chat.users)) {
       console.error('❌ chat.users is not defined or not an array');
       return;

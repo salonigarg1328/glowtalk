@@ -25,22 +25,36 @@ export const login = async (req, res) => {
   try {
     const valid = await user.findOne({ email });
     if (!valid) {
-      return res.status(200).json({ message: 'User dont exist' });
+      return res.status(401).json({ message: 'User dont exist' }); // ✅ Changed to 401 and added return
     }
     const validPassword = await bcrypt.compare(password, valid.password);
     if (!validPassword) {
-      res.status(200).json({ message: 'Invalid Credentials' });
-    } else {
-      const token = await valid.generateAuthToken();
-      await valid.save();
-      res.cookie('userToken', token, {
-        httpOnly: true,
-        maxAge: 24 * 60 * 60 * 1000,
-      });
-      res.status(200).json({ token: token, status: 200 });
+      return res.status(401).json({ message: 'Invalid Credentials' }); // ✅ Added return
     }
+    
+    // ✅ Only runs if password is valid
+    const token = await valid.generateAuthToken();
+    await valid.save();
+    res.cookie('userToken', token, {
+      httpOnly: true,
+      maxAge: 24 * 60 * 60 * 1000,
+    });
+    
+    // ✅ Better response with user data
+    res.status(200).json({ 
+      token: token, 
+      status: 200,
+      user: {
+        id: valid._id,
+        email: valid.email,
+        name: valid.name,
+        profilePic: valid.profilePic,
+        bio: valid.bio
+      }
+    });
   } catch (error) {
-    res.status(500).json({ error: error });
+    console.error('❌ Login error:', error);
+    res.status(500).json({ error: error.message });
   }
 };
 
@@ -78,14 +92,16 @@ export const googleAuth = async (req, res) => {
       audience: process.env.CLIENT_ID,
     });
     const { email_verified, email, name, picture } = verify.payload;
-    if (!email_verified) res.json({ message: 'Email Not Verified' });
+    if (!email_verified) {
+      return res.json({ message: 'Email Not Verified' }); // ✅ Added return
+    }
     const userExist = await user.findOne({ email }).select('-password');
     if (userExist) {
       res.cookie('userToken', tokenId, {
         httpOnly: true,
         maxAge: 24 * 60 * 60 * 1000,
       });
-      res.status(200).json({ token: tokenId, user: userExist });
+      return res.status(200).json({ token: tokenId, user: userExist }); // ✅ Added return
     } else {
       const password = email + process.env.CLIENT_ID;
       const newUser = await user({
@@ -99,12 +115,12 @@ export const googleAuth = async (req, res) => {
         httpOnly: true,
         maxAge: 24 * 60 * 60 * 1000,
       });
-      res
+      return res
         .status(200)
-        .json({ message: 'User registered Successfully', token: tokenId });
+        .json({ message: 'User registered Successfully', token: tokenId }); // ✅ Added return
     }
   } catch (error) {
-    res.status(500).json({ error: error });
+    res.status(500).json({ error: error.message });
     console.log('error in googleAuth backend' + error);
   }
 };
@@ -155,7 +171,7 @@ export const getUserById = async (req, res) => {
     const selectedUser = await user.findOne({ _id: id }).select('-password');
     res.status(200).json(selectedUser);
   } catch (error) {
-    res.status(500).json({ error: error });
+    res.status(500).json({ error: error.message });
   }
 };
 
@@ -224,7 +240,7 @@ export const uploadProfilePic = async (req, res) => {
     res.json({
       success: true,
       profilePicUrl: result.secure_url,
-      user: updatedUser, // ✅ Return full updated user data
+      user: updatedUser,
       message: 'Profile picture updated successfully',
     });
   } catch (error) {

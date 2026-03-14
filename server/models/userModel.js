@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
+
 const userSchema = mongoose.Schema(
   {
     name: {
@@ -35,25 +36,37 @@ const userSchema = mongoose.Schema(
     timestamps: true,
   }
 );
+
 userSchema.pre('save', async function (next) {
   if (this.isModified('password')) {
     this.password = await bcrypt.hash(this.password, 12);
   }
   next();
 });
+
 userSchema.methods.generateAuthToken = async function () {
   try {
+    // ✅ Check both SECRET and JWT_SECRET
+    const secret = process.env.SECRET || process.env.JWT_SECRET;
+    
+    if (!secret) {
+      console.error('❌ JWT secret not found in environment variables!');
+      throw new Error('JWT secret not configured');
+    }
+    
     let token = jwt.sign(
       { id: this._id, email: this.email },
-      process.env.SECRET,
+      secret,
       {
         expiresIn: '24h',
       }
     );
 
+    console.log('✅ Token generated for user:', this.email);
     return token;
   } catch (error) {
-    console.log('error while generating token');
+    console.error('❌ Error while generating token:', error.message);
+    throw error; // Re-throw to handle in controller
   }
 };
 

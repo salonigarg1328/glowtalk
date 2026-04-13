@@ -107,6 +107,8 @@ npm start
 - Backend: http://localhost:8000
 
 ## 📁 Project Structure
+
+```
 glowtalk/
 ├── clients/                 # Frontend React app
 │   ├── public/
@@ -126,6 +128,7 @@ glowtalk/
     ├── middleware/         # Custom middleware
     ├── mongoDB/            # Database connection
     └── package.json
+```
     
 ## 🎨 Color Palette
 
